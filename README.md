@@ -198,3 +198,199 @@
     -View: View dalam MVVM mirip dengan View dalam MVC dan MVT. Ini bertanggung jawab untuk mengatur tampilan dan menampilkan data kepada pengguna.
     -ViewModel: ViewModel adalah komponen yang unik untuk MVVM. Ini berperan sebagai perantara antara Model dan View. ViewModel mengubah data dari Model ke format yang lebih cocok untuk tampilan dan menyediakannya ke View. ViewModel juga mengelola tindakan dan peristiwa yang terjadi di View.
     -Perbedaan Utama: MVVM adalah pola arsitektur yang sering digunakan dalam pengembangan aplikasi berbasis klien (seperti aplikasi web berbasis JavaScript atau aplikasi seluler). ViewModel adalah komponen yang memungkinkan pengikatan data dua arah antara Model dan View. Ini membantu memisahkan logika aplikasi dari tampilan, mirip dengan MVC dan MVT, tetapi dengan pendekatan yang lebih berfokus pada tampilan responsif.
+
+## Apa perbedaan antara form POST dan form GET dalam Django? 
+    Metode HTTP:
+    -POST: Metode ini digunakan untuk mengirim data ke server dengan cara yang aman dan tidak terlihat oleh pengguna. Data yang dikirimkan dengan metode POST dikirimkan sebagai bagian dari badan permintaan HTTP, sehingga lebih aman untuk data sensitif seperti kata sandi. Formulir dengan metode POST biasanya digunakan untuk mengirim data yang akan diolah oleh server, seperti membuat, mengedit, atau menghapus entitas dalam basis data.
+    -GET: Metode ini digunakan untuk mengirimkan data sebagai bagian dari URL. Data yang dikirimkan dengan metode GET terlihat dalam URL, sehingga tidak aman untuk data sensitif. Metode ini cocok untuk mengambil data dari server, seperti pencarian atau pengambilan informasi, tetapi tidak seharusnya digunakan untuk mengirim data yang harus diamankan.
+    Pengiriman Data:
+    -POST: Data dikirimkan sebagai badan permintaan HTTP dan tidak terlihat dalam URL. Oleh karena itu, lebih cocok digunakan untuk mengirim data yang sensitif atau besar.
+    -GET: Data dikirimkan sebagai parameter query dalam URL. Data ini terlihat oleh pengguna dan dapat dilihat dalam log server atau riwayat peramban. Sebaiknya digunakan untuk data yang tidak sensitif atau saat Anda ingin membuat URL yang dapat dibagikan.
+    Batasan Panjang Data:
+    -POST: Tidak ada batasan panjang bawaan untuk data yang dikirimkan dengan metode POST.
+    -GET: Terdapat batasan panjang URL yang berbeda-beda pada server dan peramban. Batasan ini dapat membatasi jumlah data yang dapat dikirimkan dengan metode GET.
+    Keamanan:
+    -POST: Lebih aman untuk mengirim data sensitif karena tidak terlihat dalam URL. Namun, ini tidak berarti data POST selalu aman jika tidak diimplementasikan dengan benar. Perlindungan tambahan seperti Cross-Site Request Forgery (CSRF) harus diterapkan untuk mencegah serangan.
+    -GET: Kurang aman karena data terlihat dalam URL dan dapat diakses dengan mudah oleh pihak ketiga.
+
+## Apa perbedaan utama antara XML, JSON, dan HTML dalam konteks pengiriman data?
+    -XML (eXtensible Markup Language):
+    Tujuan Utama: XML dirancang untuk menyimpan dan mentransmisikan data, serta memudahkan pertukaran informasi antara sistem yang berbeda. Ini adalah bahasa markup serba guna.
+    Struktur: XML adalah bahasa markup yang memungkinkan pengguna untuk mendefinisikan struktur data mereka sendiri menggunakan tag dan aturan tertentu. Ini membuatnya sangat fleksibel, tetapi juga dapat membutuhkan lebih banyak upaya untuk mengonfigurasi dan membaca data dibandingkan dengan format lain.
+    Contoh Penggunaan: XML sering digunakan dalam protokol pertukaran data, seperti SOAP (Simple Object Access Protocol) untuk komunikasi web services.
+    -JSON (JavaScript Object Notation):
+    Tujuan Utama: JSON adalah format ringkas dan mudah dibaca yang digunakan untuk pertukaran data. Ini adalah bagian integral dari pengembangan aplikasi web modern dan sering digunakan dalam komunikasi antara server dan klien.
+    Struktur: JSON terdiri dari pasangan kunci-nilai (key-value pairs) yang terorganisir dengan baik. Format ini merupakan representasi yang lebih langsung dari objek dalam bahasa pemrograman seperti JavaScript, Python, dan banyak bahasa lainnya.
+    Contoh Penggunaan: JSON banyak digunakan dalam RESTful API (Application Programming Interface) untuk mentransmisikan data antara klien dan server.
+    -HTML (HyperText Markup Language):
+    Tujuan Utama: HTML adalah bahasa markup yang digunakan untuk membuat dan memformat halaman web. Ini tidak dirancang untuk mentransmisikan data mentah, tetapi untuk menyajikan informasi dalam bentuk yang dapat diakses dan dapat diinterpretasi oleh peramban web.
+    Struktur: HTML mengandung elemen-elemen markup yang mendefinisikan struktur halaman web. Ini termasuk elemen untuk judul, paragraf, gambar, tautan, dan banyak lagi.
+    Contoh Penggunaan: HTML digunakan untuk membuat halaman web dan menyajikan konten kepada pengguna melalui peramban web.
+
+##  Mengapa JSON sering digunakan dalam pertukaran data antara aplikasi web modern?
+    -Ringkas dan Mudah Dibaca: JSON memiliki format yang sederhana dan mudah dibaca oleh manusia. Data dalam JSON direpresentasikan dalam pasangan kunci-nilai (key-value pairs) yang membuatnya intuitif dan mudah dipahami.
+    -Ringan: JSON memiliki overhead yang rendah dalam hal ukuran data. Ini membuatnya efisien dalam pengiriman melalui jaringan, yang penting dalam aplikasi web yang memerlukan respons cepat.
+    -Pendukung yang Luas: JSON didukung oleh sebagian besar bahasa pemrograman, termasuk JavaScript, Python, Java, PHP, dan banyak lainnya. Ini memudahkan pengolahan data JSON di berbagai sisi, baik di sisi klien maupun server.
+    -Kompatibel dengan JavaScript: JSON adalah bagian integral dari JavaScript, sehingga cocok untuk digunakan dalam aplikasi web berbasis JavaScript. Ini memudahkan penggunaan data JSON dalam kode JavaScript tanpa perlu konversi atau parsing yang rumit.
+    -Serialisasi dan Deserialisasi Mudah: JSON mudah untuk diserialisasi (mengonversi dari objek ke JSON) dan deserialisasi (mengonversi dari JSON ke objek). Ini menjadikannya pilihan yang baik untuk mentransmisikan objek atau data antara klien dan server.
+    -Dukungan untuk Struktur Data Bersarang: JSON mendukung struktur data bersarang, yang memungkinkan Anda menyimpan data yang kompleks dan berlapis. Anda dapat membuat objek dalam objek, larik dalam objek, atau sebaliknya, yang sangat berguna untuk menggambarkan struktur data yang lebih kompleks.
+    -Kemudahan Penggunaan dalam RESTful API: JSON menjadi format yang paling umum digunakan dalam RESTful API (Application Programming Interface), yang merupakan pendekatan populer untuk mengembangkan layanan web. Dalam RESTful API, data seringkali dikirim dan diterima dalam format JSON.
+    -Komunitas dan Dukungan: JSON memiliki komunitas yang besar dan aktif, serta banyak alat dan pustaka yang tersedia untuk bekerja dengan format ini. Hal ini memudahkan pengembang untuk mengimplementasikan pertukaran data JSON dalam aplikasi mereka.
+
+## Membuat input form untuk menambahkan objek model pada app sebelumnya.
+    1.Buat berkas baru bernama forms.py dalam direktori main dengan kode berikut:
+    from django.forms import ModelForm
+    from main.models import Product
+
+    class ProductForm(ModelForm):
+        class Meta:
+            model = Product
+            fields = ["name", "price", "description"]
+
+    2.Buka berkas views.py dalam folder main dan tambahkan impor berikut di bagian paling atas:
+    from django.http import HttpResponseRedirect
+    from main.forms import ProductForm
+    from django.urls import reverse
+
+    3.Tambahkan fungsi create_product pada berkas tersebut:
+    def create_product(request):
+    form = ProductForm(request.POST or None)
+
+    if form.is_valid() and request.method == "POST":
+        form.save()
+        return HttpResponseRedirect(reverse('main:show_main'))
+
+    context = {'form': form}
+    return render(request, "create_product.html", context)
+
+    4.Ubah fungsi show_main yang sudah ada pada berkas views.py menjadi seperti berikut:
+    def show_main(request):
+    products = Product.objects.all()
+
+    context = {
+        'name': 'Pak Bepe',
+        'class': 'PBP A',
+        'products': products
+    }
+
+    return render(request, "main.html", context)
+
+    5.Buka berkas urls.py dalam folder main dan impor fungsi create_product yang telah Anda buat:
+    from main.views import show_main, create_product
+
+    6.Tambahkan path URL berikut ke dalam urlpatterns di berkas urls.py untuk mengakses fungsi yang sudah di-import:
+    path('create-product', create_product, name='create_product'),
+
+    7.Buat berkas HTML baru bernama create_product.html dalam direktori main/templates dengan kode berikut:
+    {% extends 'base.html' %}
+
+    {% block content %}
+    <h1>Add New Product</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        <table>
+            {{ form.as_table }}
+            <tr>
+                <td></td>
+                <td>
+                    <input type="submit" value="Add Product"/>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    {% endblock %}
+
+    8.Tambahkan kode berikut ke dalam berkas main.html untuk menampilkan data produk dalam tabel serta tombol "Add New Product" yang akan mengarahkan ke halaman form:
+        ...
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Description</th>
+            <th>Date Added</th>
+        </tr>
+
+        {% for product in products %}
+            <tr>
+                <td>{{product.name}}</td>
+                <td>{{product.price}}</td>
+                <td>{{product.description}}</td>
+                <td>{{product.date_added}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <br />
+
+    <a href="{% url 'main:create_product' %}">
+        <button>
+            Add New Product
+        </button>
+    </a>
+    ...
+
+    9.Jalankan proyek Django dengan perintah python manage.py runserver dan buka http://localhost:8000 di browser Anda. Anda sekarang dapat menambahkan data produk baru dan melihatnya pada halaman utama aplikasi.
+
+## Tambahkan 5 fungsi views untuk melihat objek yang sudah ditambahkan dalam format HTML, XML, JSON, XML by ID, dan JSON by ID.
+    -Melihat Objek dalam Format HTML:
+    def show_main(request):
+    products = Product.objects.all()
+
+    context = {
+        'name': 'Joseph Bintang Ardhirespati',
+        'class': 'PBP D',
+        'products': products
+    }
+
+    return render(request, "main.html", context)
+
+    -Melihat Objek dalam Format XML:
+    def show_xml(request):
+    data = Product.objects.all()
+    return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
+
+    -Melihat Objek dalam Format JSON:
+    def show_json(request):
+    data = Product.objects.all()
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+
+    -Melihat Objek dalam Format XML berdasarkan ID:
+    def show_xml_by_id(request, id):
+    data = Product.objects.filter(pk=id)
+    return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
+
+    -Melihat Objek dalam Format JSON berdasarkan ID:
+    def show_json_by_id(request, id):
+    data = Product.objects.filter(pk=id)
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+
+## Membuat routing URL untuk masing-masing views yang telah ditambahkan
+    Tambahkan path url ke dalam urlpatterns untuk mengakses fungsi yang sudah diimpor:
+    urlpatterns = [
+        path('', show_main, name='show_main'),
+        path('create-product', create_product, name='create_product'),
+        path('xml/', show_xml, name='show_xml'),
+        path('json/', show_json, name='show_json'),
+        path('xml/<int:id>/', show_xml_by_id, name='show_xml_by_id'),
+        path('json/<int:id>/', show_json_by_id, name='show_json_by_id'),
+    ]
+
+## Mengakses kelima URL di poin 2 menggunakan Postman, membuat screenshot dari hasil akses URL pada Postman, dan menambahkannya ke dalam README.md.
+
+![Alt text](fota/fota-html.png)
+![Alt text](fota/fota-json.png)
+![Alt text](fota/fota-xml.png)
+![Alt text](fota/fota-json-id.png)
+![Alt text](fota/fota-xml-id.png)
+
+
+
+
+
+
+
+
+
+

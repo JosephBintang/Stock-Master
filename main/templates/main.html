@@ -1,72 +1,87 @@
+{% extends 'base.html' %}
+
+{% block content %}
 <!DOCTYPE html>
 <html>
 <head>
-<title>
-Stock Master</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Menjual berbagai keperluanmu untuk game">
-<style>
-body {background-color:#ffffff;background-image:url}
-h1,h2{font-family:Arial, sans-serif;color:#000000;text-align: center;}
-p {font-family:Georgia, serif;font-size:14px;font-style:normal;font-weight:normal;color:#000000;background-color:#ffffff;}
-</style>
-<style>
-    table.GeneratedTable {
+  <title>Stock Master</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Menjual berbagai keperluanmu untuk game">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600&display=swap">
+
+  <style>
+    body {background-color: #eed1d1;background-image:url;}
+    p {font-family:Georgia, serif;font-size:14px;font-style:normal;font-weight:normal;color:#000000;background-color:#ffffff;}
+
+    h1, h2 {
+      font-family: 'Open Sans', sans-serif;
+      color: #280827;
+      text-align: center;
+      margin: 10px 0; /* Tambahkan jarak atas dan bawah */
+      text-shadow: -2px -1px 20px #000000;
+    }
+
+    table {
       width: 100%;
-      background-color: #ffffff;
       border-collapse: collapse;
-      border-width: 2px;
-      border-color: #e26fdc;
-      border-style: solid;
-      color: #000000;
+      border: 5px groove #f4a4c0;
+      margin: 20px 0;
     }
-    
-    table.GeneratedTable td, table.GeneratedTable th {
-      border-width: 2px;
-      border-color: #ea95f0;
-      border-style: solid;
-      padding: 3px;
+
+    th{
+      background: linear-gradient(0deg, #f1c9fe 4%, #b92d5d 99%);
     }
-    
-    table.GeneratedTable thead {
+
+    tr{
+      background-color: #f9daf3;
+    }
+
+    td, th {
+      border: 2px solid #ea95f0;
+      padding: 8px;
+      box-shadow: 5px 5px 10px 1px #d9cafe;
+    }
+
+    thead {
       background-color: #efa7e5;
     }
-    </style>
-    
+  </style>
 </head>
-<body>  
-    <h1>Selling Items</h1>
-    <h2>Created by:Joseph Bintang Ardhirespati</h2>
-    <h2>PBP D</h2>
-    <table class="GeneratedTable">
-        <thead>
-          <tr>
-            <th>Header</th>
-            <th>Header</th>
-            <th>Header</th>
-            <th>Header</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Cell</td>
-            <td>Cell</td>
-            <td>Cell</td>
-            <td>Cell</td>
-          </tr>
-          <tr>
-            <td>Cell</td>
-            <td>Cell</td>
-            <td>Cell</td>
-            <td>Cell</td>
-          </tr>
-          <tr>
-            <td>Cell</td>
-            <td>Cell</td>
-            <td>Cell</td>
-            <td>Cell</td>
-          </tr>
-        </tbody>
-      </table>
+<body>
+  <center>
+    <h1>It's Cinephilia</h1>
+    <h2>Created by:Joseph Bintang Ardhirespati - PBP D</h2>
+
+    <table>
+      <tr>
+          <th>Name</th>
+          <th>Amount</th>
+          <th>Price</th>
+          <th>Description</th>
+          <th>Date Added</th>
+      </tr>
+
+      {% comment %} Berikut cara memperlihatkan data produk di bawah baris ini {% endcomment %}
+
+      {% for product in products %}
+      <tr id="listPenyimpanan">
+          <td>{{product.name}}</td>
+          <td>{{product.amount}}</td>
+          <td>{{product.price}}</td>
+          <td>{{product.description}}</td>
+          <td>{{product.date_added}}</td>
+      </tr>
+      {% endfor %}
+    </table>
+
+  <br />
+
+  <a href="{% url 'main:create_product' %}">
+    <button>
+        Add New Product
+    </button>
+  </a>
+  </center>
 </body>
 </html>
+{% endblock content %}
