@@ -45,6 +45,11 @@
     thead {
       background-color: #efa7e5;
     }
+
+    img {
+      max-width: 200px;
+      max-height: 200px;
+    }
   </style>
 </head>
 <body>
@@ -56,9 +61,9 @@
       <tr>
           <th>Name</th>
           <th>Amount</th>
-          <th>Price</th>
+          <th>Poster</th>
+          <th>Rating</th>
           <th>Description</th>
-          <th>Date Added</th>
       </tr>
 
       {% comment %} Berikut cara memperlihatkan data produk di bawah baris ini {% endcomment %}
@@ -67,9 +72,9 @@
       <tr id="listPenyimpanan">
           <td>{{product.name}}</td>
           <td>{{product.amount}}</td>
-          <td>{{product.price}}</td>
+          <td><img src={{product.poster}}></td>
+          <td>{{product.rating}}</td>
           <td>{{product.description}}</td>
-          <td>{{product.date_added}}</td>
       </tr>
       {% endfor %}
     </table>
@@ -81,6 +86,12 @@
         Add New Product
     </button>
   </a>
+  <h5>Sesi terakhir login: {{ last_login }}</h5>
+  <a href="{% url 'main:logout' %}">
+    <button>
+        Logout
+    </button>
+</a>
   </center>
 </body>
 </html>
