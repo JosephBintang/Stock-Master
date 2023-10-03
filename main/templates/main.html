@@ -75,6 +75,18 @@
           <td><img src={{product.poster}}></td>
           <td>{{product.rating}}</td>
           <td>{{product.description}}</td>
+          < <td>
+            <a href="{% url 'main:edit_product' product.pk %}">
+                <button>
+                    Edit
+                </button>
+            </a>
+            <a href="{% url 'main:delete_product' product.pk %}">
+                  <button>
+                      Delete
+                  </button>
+              </a>
+        </td>
       </tr>
       {% endfor %}
     </table>

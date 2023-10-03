@@ -650,14 +650,96 @@
     Session Hijacking: Jika ID sesi disimpan dalam cookie, dan cookie ini dikompromikan, maka sesi pengguna juga bisa diambil alih oleh penyerang.
     Storage on Client Side: Cookies disimpan di sisi klien, yang berarti pengguna atau pihak ketiga berpotensi mengaksesnya, memanipulasinya, atau bahkan menghapusnya.
 
+# Tugas 5
+## Jelaskan manfaat dari setiap element selector dan kapan waktu yang tepat untuk menggunakannya.
+    1. Universal Selector (*):
+    Manfaat: Memilih semua elemen pada halaman.
+    Kapan Menggunakannya: Saat Anda ingin menerapkan gaya ke semua elemen tanpa terkecuali. Contohnya, untuk mengatur margin dan padding default menjadi nol untuk semua elemen.
+    2 Type Selector / Element Selector (e.g., h1, p):
+    Manfaat: Memilih semua elemen dengan jenis tertentu.
+    Kapan Menggunakannya: Saat Anda ingin menerapkan gaya ke semua elemen dari jenis tertentu.
+    3. Class Selector (e.g., .classname):
+    Manfaat: Memilih elemen berdasarkan kelas tertentu.
+    Kapan Menggunakannya: Saat Anda ingin menerapkan gaya khusus ke sekelompok elemen yang memiliki kelas tertentu. Sangat berguna saat beberapa elemen memerlukan gaya yang sama, tetapi tidak semua elemen dari jenis yang sama perlu digayakan dengan cara itu.
+    4. ID Selector (e.g., #idname):
+    Manfaat: Memilih elemen berdasarkan ID-nya.
+    Kapan Menggunakannya: Saat Anda ingin menerapkan gaya pada satu elemen spesifik. ID harus unik dalam halaman, jadi gunakan ini untuk gaya yang sangat spesifik dan unik.
+    5. Descendant Selector (e.g., article p):
+    Manfaat: Memilih elemen berdasarkan keturunannya.
+    Kapan Menggunakannya: Saat Anda ingin menerapkan gaya ke elemen yang berada di dalam elemen lain.
+    6. Child Selector (e.g., ul > li):
+    Manfaat: Memilih elemen yang merupakan anak langsung dari elemen lain.
+    Kapan Menggunakannya: Saat Anda ingin menerapkan gaya hanya ke anak-anak langsung, dan tidak kepada anak-anak dari anak-anak tersebut.
+    7. Attribute Selector (e.g., [attr=value]):
+    Manfaat: Memilih elemen berdasarkan atribut dan nilainya.
+    Kapan Menggunakannya: Saat Anda ingin menerapkan gaya berdasarkan atribut tertentu dari elemen, seperti type, href, atau atribut lainnya.
 
+## Jelaskan HTML5 Tag yang kamu ketahui.
+    HTML5 memperkenalkan sejumlah tag baru yang dirancang untuk membuat struktur konten web menjadi lebih semantik dan aksesibel. Berikut adalah sejumlah tag HTML5 yang penting:
 
+    <!DOCTYPE html>: Meskipun bukan tag baru, deklarasi doctype ini adalah cara yang disederhanakan untuk mendefinisikan halaman sebagai HTML5.
+    <header>: Menentukan header untuk dokumen atau bagian. Biasanya berisi logo, judul situs, dan navigasi utama.
+    <footer>: Menentukan footer untuk dokumen atau bagian. Biasanya berisi informasi hak cipta, link ke kebijakan privasi, dan informasi kontak.
+    <nav>: Digunakan untuk mengelompokkan elemen navigasi utama, seperti menu.
+    <article>: Menentukan konten independen yang seharusnya dapat berdiri sendiri dan memiliki arti jika diletakkan di luar konteks halaman, seperti postingan blog.
+    <section>: Menentukan bagian dalam dokumen, seperti bab, tab, atau halaman beranda.
+    <aside>: Menentukan konten yang agak terpisah dari konten utama, sering digunakan untuk sidebar.
+    <hgroup>: Mengelompokkan elemen heading (<h1> hingga <h6>) ketika judul dan subjudul diperlukan.
+    <figure> & <figcaption>: <figure> digunakan untuk mengelompokkan konten referensi, seperti gambar, diagram, foto, kode, sementara <figcaption> digunakan untuk memberikan keterangan atau legenda untuk <figure>.
+    <time>: Menyatakan waktu (24 jam) atau tanggal, dengan atribut datetime untuk klarifikasi.
+    <mark>: Digunakan untuk menyoroti bagian dari teks.
+    <progress> & <meter>: <progress> menampilkan bar kemajuan untuk tugas yang sedang berlangsung, sementara <meter> menunjukkan ukuran dalam rentang yang didefinisikan.
+    <details> & <summary>: <details> digunakan untuk menyembunyikan dan menampilkan konten tambahan, dengan <summary> memberikan deskripsi atau ringkasan dari konten yang disembunyikan.
+    <canvas>: Elemen untuk menggambar grafik pada halaman web via scripting (biasanya dengan JavaScript).
+    <audio> & <video>: Digunakan untuk menyematkan konten audio dan video. Mereka bisa digabung dengan elemen seperti <source> untuk mendefinisikan sumber media.
+    <datalist>: Digunakan dengan <input> untuk menyediakan daftar pilihan yang disarankan bagi pengguna.
+    <output>: Menampilkan hasil dari perhitungan.
+    <wbr>: Menunjukkan di mana dalam teks mungkin adalah tempat yang baik untuk memutuskan garis jika diperlukan.
 
+## Jelaskan perbedaan antara margin dan padding.
+    Margin dan Padding adalah dua properti dasar dalam CSS yang mengontrol ruang di sekitar elemen, tetapi mereka berfungsi sedikit berbeda. Mari kita jelaskan perbedaannya:
 
+    Padding:
+    Definisi: Padding adalah ruang antara konten elemen dengan batas atau border elemen tersebut.
+    Posisi: Berada di dalam elemen, di antara konten sebenarnya (seperti teks atau gambar) dan border elemen.
+    Penggunaan: Biasanya digunakan untuk memberi ruang di sekitar konten elemen, menjauhkannya dari batas atau border elemen. Misalnya, jika Anda memiliki tombol dengan teks di dalamnya, menambahkan padding akan membuat teks tidak terlalu dekat dengan tepi tombol.
+    Warna: Jika elemen memiliki latar belakang (background color), padding akan mewarisi warna latar belakang tersebut.
 
+    Margin:
+    Definisi: Margin adalah ruang di luar batas atau border elemen, yang memisahkannya dari elemen lain.
+    Posisi: Berada di luar elemen, di luar border elemen.
+    Penggunaan: Biasanya digunakan untuk memberi ruang antara elemen dengan elemen lain di sekitarnya. Misalnya, Anda mungkin ingin memberi margin kepada sebuah paragraf untuk memastikan bahwa tidak ada elemen lain yang terlalu dekat dengannya.
+    Warna: Margin selalu transparan, tidak peduli apakah elemen memiliki latar belakang atau tidak.
 
+## Jelaskan perbedaan antara framework CSS Tailwind dan Bootstrap. Kapan sebaiknya kita menggunakan Bootstrap daripada Tailwind, dan sebaliknya?
+    Tailwind CSS dan Bootstrap adalah dua framework CSS populer, tetapi mereka memiliki pendekatan yang berbeda dalam hal desain dan penggunaannya. Mari kita jelaskan perbedaannya:
 
+    Pendekatan:
+    Bootstrap: Merupakan sebuah framework berbasis komponen. Bootstrap menyediakan sejumlah komponen desain siap pakai (seperti navigasi, modals, dropdowns, dan lain-lain) yang bisa Anda gunakan langsung dengan menambahkan kelas-kelas tertentu ke elemen HTML Anda.
+    Tailwind CSS: Merupakan sebuah framework berbasis utilitas. Alih-alih menyediakan komponen desain siap pakai, Tailwind menyediakan kelas utilitas kecil yang masing-masing melakukan satu hal (seperti mengatur margin, padding, atau warna). Dengan menggabungkan kelas-kelas ini, Anda bisa dengan cepat membangun desain kustom.
 
+    Kustomisasi:
+    Bootstrap: Meskipun dapat dikustomisasi, Bootstrap cenderung memiliki tampilan "Bootstrap-ish" kecuali Anda melakukan modifikasi yang signifikan atau menggunakan tema pihak ketiga.
+    Tailwind CSS: Memberikan kebebasan besar dalam mendesain UI sesuai kebutuhan, karena Anda membangun tampilan dari awal menggunakan kelas utilitas.
 
+    Ukuran File:
+    Bootstrap: Mengandung komponen-komponen yang mungkin Anda tidak gunakan, tetapi jika Anda tidak memodifikasi build-nya, Anda akan mendapatkan seluruh library.
+    Tailwind CSS: Dengan konfigurasi yang tepat (misalnya menggunakan PurgeCSS), Anda hanya akan mendapatkan CSS yang benar-benar Anda gunakan, yang dapat menghasilkan file yang jauh lebih kecil.
 
+    Kurva Belajar:
+    Bootstrap: Relatif mudah bagi pemula karena menyediakan komponen siap pakai. Cukup dengan mengetahui kelas-kelas tertentu, Anda bisa membuat tampilan yang bagus dengan cepat.
+    Tailwind CSS: Mungkin sedikit lebih sulit pada awalnya karena Anda perlu memahami banyak kelas utilitas. Namun, setelah Anda terbiasa, pendekatan utilitas-first ini bisa sangat cepat dan fleksibel.
 
+    JavaScript:
+    Bootstrap: Datang dengan JavaScript/jQuery tertentu untuk komponen-komponennya.
+    Tailwind CSS: Tidak menyertakan JavaScript. Jika Anda memerlukan interaksi, Anda harus menambahkannya sendiri atau menggunakan library lain.
+
+    Kapan menggunakan Bootstrap:
+    Ketika Anda ingin prototipe cepat atau membangun aplikasi dengan tampilan standar tanpa banyak upaya kustomisasi.
+    Ketika Anda sudah familiar dengan Bootstrap dan merasa nyaman dengannya.
+    Jika Anda memerlukan komponen berbasis JavaScript (seperti modals, tooltips) dan tidak ingin menulisnya dari awal.
+    
+    Kapan menggunakan Tailwind CSS:
+    Ketika Anda ingin kontrol penuh atas desain tanpa harus menimpa gaya yang sudah ada.
+    Ketika Anda lebih suka pendekatan utilitas-first untuk menulis CSS.
+    Jika Anda memprioritaskan kinerja dan ingin menghasilkan CSS sesedikit mungkin dengan hanya apa yang Anda gunakan.
