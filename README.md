@@ -743,3 +743,279 @@
     Ketika Anda ingin kontrol penuh atas desain tanpa harus menimpa gaya yang sudah ada.
     Ketika Anda lebih suka pendekatan utilitas-first untuk menulis CSS.
     Jika Anda memprioritaskan kinerja dan ingin menghasilkan CSS sesedikit mungkin dengan hanya apa yang Anda gunakan.
+
+# Tugas 6
+## Implementasi AJAX GET
+    1. Buat fungsi get_product_json di views.py dengan isi seperti berikut:
+    def get_product_json(request):
+        product_item = Item.objects.filter(user=request.user)
+        return HttpResponse(serializers.serialize('json', product_item))
+    2. Tambahkan rute URL seperti berikut untuk mengarahkan ke tampilan main di dalam variabel urlpatterns.
+    path('get-product/', get_product_json, name='get_product_json'),
+    3. Buka main.html pada main/templates dan hapus bagian kode table yang sudah dibuat dan sesuaikan seperti kode berikut:
+    <div class="container mt-4">
+        <div class="row" id="product_cards"> 
+        </div>
+    </div>
+    4. Buat <Script> di bawah berkas dan buat fungsi baru di dalam <Script> dengan nama getProducts()
+    <script>
+        async function getProducts() {
+            return fetch("{% url 'main:get_product_json' %}").then((res) => res.json())
+        }
+    </script>
+    5. Buat fungsi baru bernama refreshProducts() di dalam <Script> yang akan me-refresh data item secara asynchronous.
+    <script>
+        const csrfToken = document.getElementById('csrfToken').value;
+        async function getProducts() {
+            return fetch("{% url 'main:get_product_json' %}").then((res) => res.json())
+        }
+
+        async function refreshProducts() {
+            const productsContainer = document.getElementById("product_cards");
+            productsContainer.innerHTML = ""; // Bersihkan elemen terlebih dahulu
+
+            const products = await getProducts();
+            const itemCount = document.getElementById("ItemCount");
+            const totalItem = products.length;
+            itemCount.innerHTML = `You have collected a total of ${totalItem} item(s) in this application`
+
+            products.forEach((item) => {
+                const card = document.createElement('div');
+                card.className = 'col-md-4 mb-4';
+
+                card.innerHTML = `
+                <div class="card">
+                    <div class="card-body">
+                        <div class="text-center" >
+                            <h2 class="card-title" ><strong>${item.fields.name || '-'}</strong></h2>
+                        </div>
+                        <p class="card-text">${item.fields.description || '-'}</p>
+                        <p><strong>price:</strong> ${item.fields.price || '-'}</p>
+                        <p><strong>sell:</strong> ${item.fields.sell || '-'}</p>
+                        <p><strong>Amount:</strong> ${item.fields.amount || '-'}</p>
+                        <p><strong>modifiers:</strong> ${item.fields.modifiers || '-'}</p>
+                        <p><strong>Date Added:</strong> ${item.fields.date_added || '-'}</p>
+                        <div class="btn-display">
+                            <a>
+                                <button type="submit" class="btn btn-outline-warning btn-sm edit-item-btn" onclick="addAmount(${item.pk})">+</button>
+                            </a>
+                            <a>
+                                <button type="submit" class="btn btn-outline-warning btn-sm edit-item-btn" onclick="decreaseAmount(${item.pk})">-</button>
+                            </a>
+                            <a>
+                                <button type="submit" class="btn btn-outline-danger btn-sm edit-item-btn" onclick="deleteProduct(${item.pk})">Delete</button>
+                            </a>
+                        </div>
+                        <a href="edit-product/${item.pk}" class="btn btn-warning">Edit</a>
+                        
+                    </div>
+                </div>`;
+                
+                productsContainer.appendChild(card);
+            });
+        }
+
+        refreshProducts();
+
+        function addProduct() {
+            fetch("{% url 'main:add_product_ajax' %}", {
+                method: "POST",
+                body: new FormData(document.querySelector('#form'))
+            }).then(refreshProducts)
+
+            document.getElementById("form").reset()
+            return false
+        }
+
+        function deleteProduct(item_id) {
+            fetch(`{% url 'main:delete_product_ajax' 0 %}`.replace('0', item_id), {
+                method: "POST",
+                headers: {
+                    'X-CSRFToken': csrfToken
+                }
+            }).then(response => response.json())
+            .then(data => {
+                if(data.status === 'success') {
+                    refreshProducts();
+                } else {
+                    console.error(data.message);
+                }
+            });
+        }
+
+        document.getElementById("button_add").onclick = addProduct;
+
+        function addAmount(item_id) {
+            fetch(`{% url 'main:add_amount_ajax' 0 %}`.replace('0', item_id), {
+                method: "POST",
+                headers: {
+                    'X-CSRFToken': csrfToken
+                }
+            }).then(response => response.json())
+            .then(data => {
+                if(data.status === 'success') {
+                    refreshProducts();
+                } else {
+                    console.error('Failed to add amount:', data.message);
+                }
+            });
+        }
+
+        function decreaseAmount(item_id) {
+            fetch(`{% url 'main:decrease_product_ajax' 0 %}`.replace('0', item_id), {
+                method: "POST",
+                headers: {
+                    'X-CSRFToken': csrfToken
+                }
+            }).then(response => response.json())
+            .then(data => {
+                if(data.status === 'success' || data.status === 'deleted') {
+                    refreshProducts();
+                } else {
+                    console.error('Failed to decrease amount:', data.message);
+                }
+            });
+        }
+    </script>
+
+## Implementasi AJAX POST
+    Membuat tombol yang membuka sebuah modal dengan form untuk menambahkan item ke dalam basis data dan menampilkan daftar item terbatu tanpa reload halaman.
+    1. Tambahkan kode berikut di atas kode untuk mengatur tampilan form untuk menambahkan item melalui AJAX.
+    <div class="container mt-4">
+        <div class="row" id="product_cards">
+            <!-- Ini adalah tempat card produk akan ditampilkan -->
+        </div>
+    </div>
+
+    <input type="hidden" id="csrfToken" value="{% csrf_token %}">
+    <!-- Modal form untuk menambah produk -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Add New Product</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form" onsubmit="return false;">
+                        {% csrf_token %}
+                        <div class="mb-3" >
+                            <label for="name" class="col-form-label" >Name:</label>
+                            <input type="text" class="form-control" id="name" name="name"></input>
+                        </div>
+                        <div class="mb-3">
+                            <label for="price" class="col-form-label">Price:</label>
+                            <input type="number" class="form-control" id="price" name="price"></input>
+                        </div>
+                        <div class="mb-3">
+                            <label for="sell" class="col-form-label">Sell:</label>
+                            <input type="number" class="form-control" id="sell" name="sell"></input>
+                        </div>
+                        <div class="mb-3">
+                            <label for="amount" class="col-form-label">Amount:</label>
+                            <input type="number" class="form-control" id="amount" name="amount"></input>
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="col-form-label">Description:</label>
+                            <textarea class="form-control" id="description" name="description"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="modifiers" class="col-form-label">modifiers:</label>
+                            <textarea class="form-control" id="modifiers" name="modifiers"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="button_add" data-bs-dismiss="modal">Add Product</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <center>
+    # kode dibawah ini untuk membuat button add product by AJAX
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Add Product by AJAX</button>
+    2. Tambahkan kode berikut di dalam <Script> seperti di bawah ini
+    <script>
+        ...
+        function addProduct() {
+            fetch("{% url 'main:add_product_ajax' %}", {
+                method: "POST",
+                body: new FormData(document.querySelector('#form'))
+            }).then(refreshProducts)
+
+            document.getElementById("form").reset()
+            return false
+        }
+        document.getElementById("button_add").onclick = addProduct
+    </script>
+    
+    Menghubungkan fungsi create-ajax dengan fungsi view add_product_ajax
+    1. Masukan import ke dalam views.py.
+    from django.views.decorators.csrf
+    import csrf_exempt dan HttpResponseNotFound
+    2. Buat fungsi add_product_ajax di dalam views.py yang menerima request seperti berikut:
+    @csrf_exempt
+    def add_product_ajax(request):
+        if request.method == 'POST':
+            name = request.POST.get("name")
+            price = request.POST.get("price")
+            description = request.POST.get("description")
+            sell = request.POST.get("sell")
+            amount = request.POST.get("amount")
+            modifiers = request.POST.get("modifiers")
+            user = request.user
+
+            new_product = Item(name=name, price=price, description=description, user=user, sell=sell, modifiers=modifiers, amount=amount)
+            new_product.save()
+
+            return HttpResponse(b"CREATED", status=201)
+
+        return HttpResponseNotFound()
+    3. Import fungsi add_product_ajax di dalam urls.py pada folder main dan tambahkan path url fungsi add_product_ajax.
+    path('create-ajax/', add_product_ajax, name='add_product_ajax')
+
+## Melakukan perintah collectstatic
+    1. Jalankan virtual environment dengan source env/bin/activate
+    2. Jalankan perintah python manage.py collectstatic untuk mengumpulkan file static dari setiap aplikasi ke dalam satu folder.
+
+## Perbedaan antara Asynchronous Programming dengan Synchronous Programming:
+    Synchronous Programming (Pemrograman Sinkron):
+    1. Linearitas Eksekusi: Dalam pemrograman sinkron, kode dijalankan secara berurutan. Sebuah operasi harus selesai sebelum operasi berikutnya dimulai.
+    2. Blokiran (Blocking): Jika ada operasi yang memerlukan waktu lama untuk diselesaikan, misalnya akses ke database atau permintaan ke server lain, seluruh aplikasi atau thread akan menunggu hingga operasi tersebut selesai. Ini disebut sebagai "blocking" karena eksekusi kode lainnya terblokir.
+    3. Kemudahan Pemahaman: Karena kode dijalankan secara berurutan, biasanya lebih mudah untuk dipahami dan didebug.
+    4. Performa: Dalam beberapa kasus, pemrograman sinkron bisa menjadi botleneck, terutama pada aplikasi yang perlu menangani banyak permintaan sekaligus atau operasi I/O.
+
+    Asynchronous Programming (Pemrograman Asinkron):
+    1. Non-linear Eksekusi: Dalam pemrograman asinkron, kode tidak harus dijalankan secara berurutan. Sebuah operasi dapat dimulai dan kode lainnya dapat terus berjalan tanpa menunggu operasi tersebut selesai.
+    2. Non-blokiran (Non-blocking): Operasi yang memakan waktu lama, seperti I/O, tidak akan menghentikan eksekusi kode yang lain. Sebaliknya, saat operasi tersebut selesai, sebuah callback atau promise (atau konsep lain tergantung pada bahasa pemrograman) akan memberi tahu sistem bahwa tugas tersebut telah selesai.
+    3. Kompleksitas: Karena banyak operasi yang dapat berjalan secara paralel dan memiliki mekanisme callback atau promise, kode asinkron bisa menjadi lebih sulit untuk dipahami dan didebug.
+    4. Performa: Pemrograman asinkron dapat meningkatkan performa, terutama dalam skenario di mana banyak operasi I/O atau tugas-tugas yang memerlukan waktu lama. Ini memungkinkan sistem untuk memaksimalkan penggunaan sumber daya tanpa harus menunggu.
+
+## Event-driven Programming pada JavaScript dan AJAX:
+    1. Event-driven programming adalah paradigma di mana alur program ditentukan oleh peristiwa, seperti input pengguna atau perubahan status sistem. Dalam konteks JavaScript dan AJAX, ini berarti kode Anda sering kali akan menanggapi peristiwa seperti klik mouse atau respons server dari permintaan AJAX.
+    2. Contoh: Pada kode yang Anda berikan sebelumnya, button.onclick = addProduct; adalah contoh event-driven programming. Ketika tombol diklik (onclick event), fungsi addProduct akan dipanggil.
+
+## Penerapan Asynchronous Programming pada AJAX:
+    AJAX (Asynchronous JavaScript And XML) secara inheren menggunakan pemrograman asinkron. Saat Kita membuat permintaan AJAX, kita tidak menunggu responsnya dan terus menjalankan kode lain. Ketika respons diterima, sebuah callback dijalankan. Ini memungkinkan halaman web untuk meminta data dari server dan memperbaruinya tanpa perlu memuat ulang seluruh halaman.
+
+## Perbandingan Fetch API dengan jQuery dalam penerapan AJAX:
+    AJAX dengan jQuery:
+    1. Keberadaan Lama: jQuery telah ada sejak lama (dirilis pertama kali pada 2006) dan banyak digunakan di berbagai website. Karena itu, banyak pengembang yang sudah familiar dengan cara kerjanya.
+    2. Kemudahan: Dengan jQuery, melakukan permintaan AJAX cukup sederhana dan intuitif, terutama untuk pengembang yang sudah mengenal library ini.
+    3. Ketergantungan: Untuk menggunakan AJAX melalui jQuery, Anda harus memasukkan library jQuery ke dalam proyek Anda. Ini bisa menjadi kelebihan beban, terutama jika Anda hanya menggunakan fitur AJAX-nya saja dan tidak menggunakan fitur-fitur jQuery lainnya.
+    4. Kecocokan dengan Proyek Lama: Jika Anda bekerja pada proyek lama yang sudah menggunakan jQuery, mungkin lebih masuk akal untuk tetap menggunakan jQuery untuk konsistensi.
+
+    Fetch API:
+    1. Modern dan Native: Fetch API adalah teknologi native yang ada di kebanyakan browser modern tanpa perlu library tambahan.
+    2. Fleksibilitas: Fetch memberikan kontrol lebih kepada pengembang dalam hal konfigurasi permintaan, seperti mode CORS, headers, dan lain-lain.
+    3. Menggunakan Promises: Fetch API menggunakan konsep promises yang memungkinkan penggunaan then dan catch, serta dapat digabungkan dengan async/await untuk penulisan kode yang lebih bersih dan mudah dibaca.
+    4. Tidak Memerlukan Ketergantungan: Anda tidak perlu menambahkan library eksternal untuk menggunakan Fetch API.
+
+    Pendapat:
+    Kedua teknologi memiliki kelebihan dan kekurangannya masing-masing. Pilihan antara keduanya sebenarnya bergantung pada kebutuhan dan konteks proyek Anda:
+    > Jika Anda bekerja pada proyek baru dan menginginkan solusi native tanpa ketergantungan eksternal, Fetch API adalah pilihan yang baik.
+    > Namun,jika Anda bekerja pada proyek yang sudah ada dan sudah menggunakan jQuery, atau Anda lebih nyaman dengan pendekatan jQuery, maka menggunakan AJAX melalui jQuery masih relevan.
+
+    Pribadi, saya cenderung merekomendasikan Fetch API untuk proyek-proyek baru karena merupakan solusi native dan modern yang lebih ringan dan fleksibel. Namun, penting untuk mempertimbangkan kebutuhan dan konteks spesifik proyek Anda sebelum membuat keputusan.
