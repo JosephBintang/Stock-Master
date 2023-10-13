@@ -1,5 +1,5 @@
-## Link adaptable ##
-    https://stock-master.adaptable.app/
+## Link deploy ##
+    http://joseph-bintang-tugas.pbp.cs.ui.ac.id
 
 # TUGAS 2
 ## Cara membuat sebuah proyek Django baru yaitu ##
